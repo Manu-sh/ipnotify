@@ -1,9 +1,14 @@
+# ipnotify
+######  notify to your gmail account when public ip address change 
 
-### Dependencies
-sudo gem install gmail
 
 ### Installation
-git clone ...
+You can also install ipnotify as normal user (and maybe is a better choice)
+but isn't covered by this readme.
+
+```bash
+git clone https://github.com/Manu-sh/ipnotify
+sudo gem install gmail
 cd ipnotify
 
 # ensure that all files have correct permissions
@@ -12,10 +17,10 @@ chmod 0600 ipnotify.*
 chmod 0644 *.rb
 chmod 0755 ipnotify.rb
 
-sudo cp -rfv ../ipnotify /opt
+sudo cp -rv ../ipnotify /opt
 
 # install the configuration file
-mv -fv /opt/ipnotify/ipnotify.cfg /etc
+mv -v /opt/ipnotify/ipnotify.cfg /etc
 
 # create the relative service
 cat > /etc/systemd/system/ipnotify.service << EOF
@@ -35,9 +40,10 @@ ProtectKernelModules=yes
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
 ## Configuration
-now you should edit ipnotify.cfg setting your mail address and password,
+Edit *ipnotify.cfg* and setting your mail address and password,
 some command line options like --hostname can be specificated also
 throught the configuration file, to get more details of those common options
 type:
@@ -49,3 +55,5 @@ now you should be able enable & start the service
 sudo systemctl enable ipnotify.service
 sudo systemctl start ipnotify.service
 ```
+
+###### Copyright © 2018, [Manu-sh](https://github.com/Manu-sh), s3gmentationfault@gmail.com. Released under the [GPL3 license](LICENSE).
