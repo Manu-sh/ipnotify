@@ -17,7 +17,8 @@ chmod 0600 ipnotify.*
 chmod 0644 *.rb
 chmod 0755 ipnotify.rb
 
-sudo cp -rv ../ipnotify /opt
+# now as root
+cp -r ../ipnotify /opt
 
 # install the configuration file
 mv -v /opt/ipnotify/ipnotify.cfg /etc
@@ -44,7 +45,7 @@ EOF
 
 ## Configuration
 Edit *ipnotify.cfg* and setting your mail address and password,
-some command line options like --hostname can be specificated also
+some command line options like `--hostname` can be specificated also
 throught the configuration file, to get more details of those common options
 type:
 
