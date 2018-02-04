@@ -46,7 +46,7 @@ EOF
 ## Configuration
 Edit *ipnotify.cfg* and setting your mail address and password,
 some command line options like `--hostname` can be specificated also
-throught the configuration file, to get more details of those common options
+throught the configuration file, to get more details on these common options
 type:
 
 `/opt/ipnotify/ipnotify.rb -h`
