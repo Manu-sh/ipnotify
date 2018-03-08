@@ -197,7 +197,7 @@ end
 
 
 # 10 MB log
-$logger = Logger.new($opt[:logfile], 0, 10485760)
+$logger = Logger.new($opt[:logfile], 1, 10485760)
 $logger.datetime_format = '%d/%m/%Y %H:%M:%S'
 
 # EXIT, INT, QUIT, TERM
