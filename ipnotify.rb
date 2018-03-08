@@ -118,7 +118,7 @@ ipnotify usage:
 		/etc/ipnotify.cfg
 	-d, --daemon
 		run as daemon, you can specify a different pidfile
-		default is /var/run/ipnotify.pid, or 
+		default is /var/run/ipnotify.pid
 	-l, --log
 		enable log, you can specify a different file log
 		default is /var/log/ipnotify.log
