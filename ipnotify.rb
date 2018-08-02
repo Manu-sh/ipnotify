@@ -23,17 +23,47 @@ require_relative 'HttpUtils.rb'
 
 def mail_body(hostname,ip)
 
-mail_body = <<EOF
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
-<html><style> body { background-color: white; color: #24292E; } .container { padding: 3% 13% 3% 13%; }
-a { color: #076AD3; background-color: #F6F8FA; border-radius: 8%; padding: 5% 3% 5% 3%; border: 
-1px solid #c3c3c3; text-align: center; } a:link { font-size: 13px; text-decoration: none; text-transform: uppercase; 
-display: inline-block; padding: 3px 3px 3px 3px } a:hover { color: #E2574E; background-color: #F6F8FA; }
-</style><head><title>#{hostname}</title></head><body><div class="container"><h2 align=center>New public IP address</h2>
-<h3 align=center>#{hostname} <a target="blank" href="https://www.iplocation.net/?query=#{ip}">#{ip}</a></h3>
-</div></body></body></html>
-EOF
+mail_body = <<-EOF
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>#{hostname}</title>
+		<meta charset="utf-8">
+		<style>
+			* { margin: 0; padding: 0; }
 
+			body { 
+				width: 100%;
+				background-color: white; 
+				color: #24292E; 
+			} 
+
+			.container { 
+				width: 80%;
+				margin: 5% auto;
+				text-align: center;
+			}
+
+			a {
+				color: #076AD3;
+				background-color: #F6F8FA; 
+				border-radius: 8%; 
+				border: 1px solid #c3c3c3; 
+				text-align: center; 
+				padding: 0.2%;
+			} 
+			a:link  { font-size: 13px; text-decoration: none; text-transform: uppercase; display: inline-block; } 
+			a:hover { color: #E2574E; background-color: #F6F8FA; }
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h2>New public IP address</h2>
+			<h3>#{hostname} <a target="blank" href="https://www.iplocation.net/?query=#{ip}">#{ip}</a></h3>
+		</div>
+	</body>
+</html>
+EOF
 	return mail_body;
 end
 
@@ -72,7 +102,7 @@ def get_ip(url_str = "http://ifconfig.me")
 	rescue => e
 		$logger.warn('get_ip()') { "#{e} at line: #{__LINE__}" }
 		STDERR.puts("get_ip() failed: #{e}") if (!$opt[:daemon])
-		return ""
+		return "";
 	end
 end
 
@@ -214,6 +244,8 @@ end
 
 loop {
 
+	sleep 2
+
 	if ((my_ip = get_ip()) != (prev = IPstore::load_from_cache($opt[:cachefile])))
 
 		next if my_ip.empty?
@@ -237,6 +269,5 @@ loop {
 	end
 
 	puts "your ip: #{my_ip}" if (!$opt[:daemon])
-	sleep 1
 
 }
