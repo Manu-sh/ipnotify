@@ -32,6 +32,11 @@ module HttpUtils
 			return uri_str.to_s
 		when Net::HTTPRedirection then
 			location = response['location']
+
+			# base url workaround
+			uri = URI(uri_str)
+			location = location[0] == '/' ? (uri.scheme + "://" +  uri.host + location) : location;
+
 			warn "redirected to #{location}"
 			return fetch(location, hmap, limit - 1)
 		else
