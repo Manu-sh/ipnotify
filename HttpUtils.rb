@@ -19,7 +19,7 @@ module HttpUtils
 	end
 
 	# http://ruby-doc.org/stdlib-2.4.2/libdoc/net/http/rdoc/Net/HTTP.html
-	# follow n redirection (which n is limit) and return the final url destination 
+	# follow n redirection (which n is limit) and return the final url destination
 	# hmap is the header map that will be used for send these request
 
 	def self.fetch(uri_str, hmap = {}, limit = 10)
@@ -28,20 +28,26 @@ module HttpUtils
 
 		# wee need only of header
 		case (response = get_response(uri_str, hmap, false))
-		when Net::HTTPSuccess then
-			return uri_str.to_s
-		when Net::HTTPRedirection then
-			location = response['location']
+			when Net::HTTPSuccess then
+				return uri_str.to_s
+			when Net::HTTPRedirection then
 
-			# base url workaround
-			uri = URI(uri_str)
-			location = location[0] == '/' ? (uri.scheme + "://" +  uri.host + location) : location;
+				# dump hdr
+				response.each_header {|key,value| puts "#{key} = #{value}" }
+				puts
 
-			warn "redirected to #{location}"
-			return fetch(location, hmap, limit - 1)
-		else
-			return response.value
+				# get an absolute url from base url
+				location = URI.join(uri_str, response['location']).to_s
+
+				warn "redirected to #{location}"
+				return fetch(location, hmap, limit - 1)
+			else
+				return response.value
 		end
+	end
+
+	def self.boundary()
+		return ('--' * 14) + Random.urandom(14).each_codepoint.map {|c| "%02x" % (c.ord%256) } * '';
 	end
 
 end
