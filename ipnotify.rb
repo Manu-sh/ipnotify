@@ -232,7 +232,7 @@ $logger.datetime_format = '%d/%m/%Y %H:%M:%S'
 
 # EXIT, INT, QUIT, TERM
 [0,2,3,15].each { |sig|
-	Signal.trap(sig) { $logger.close; exit }
+	Signal.trap(sig) { File.remove($opt[:pidfile]); $logger.close; exit }
 }
 
 # daemonize
